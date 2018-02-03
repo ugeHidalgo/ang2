@@ -9,6 +9,6 @@
             <p class="text-error">Error occurred: @model.error</p>
         }
 
-        <p>this is the page body !!!</p>
+        <p>This is the home page for the server side. !!!</p>
     })
 })

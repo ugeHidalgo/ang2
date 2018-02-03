@@ -1,4 +1,6 @@
-##Server side
+## Angular tour of heroes including a nodejs server
+
+## Server side
 
 An empty server side project implemented using:
 
@@ -62,9 +64,11 @@ ___
 
     Access site to http://localhost:3000
 
-    Launch client side with:
+    Launch client side with any of these:
 
         - ng serve
+        - ng serve --host 0.0.0.0  (If you one to connect to your client side server from other machine different than localhost)
+
 
 
 -4 Debug server side with node inspector:
