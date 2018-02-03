@@ -5,7 +5,7 @@
  * Module dependencies.
  */
 var config = require('./config/config'),
-    app = require('./config/lib/app'),
+    app = require('./src/app'),
     server;
 
 // Set NODE_ENV to 'development' for a while only, needs to be added to a gulp task(see meanjs).

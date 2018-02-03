@@ -4,7 +4,7 @@
 /**
  * Module dependencies.
  */
-var config = require('../config'),
+var config = require('../config/config'),
     express = require ('express'),
     expressSession = require('express-session'),
     bodyParser = require('body-parser'),
@@ -12,8 +12,8 @@ var config = require('../config'),
     cookieParser = require('cookie-parser'),
     methodOverride = require('method-override'),
     path = require('path'),
-    controllers = require ('../../server/controllers'),
-    coreRoutes = require ('../../server/routes/coreRoutes');
+    controllers = require ('./controllers'),
+    coreRoutes = require ('./routes/coreRoutes');
 
 // Initialize application middleware
 module.exports.initMiddleware = function (app) {
@@ -41,8 +41,11 @@ module.exports.initMiddleware = function (app) {
 
 //Configure view engine and the root folder for the server views.
 module.exports.initViewEngine = function (app) {
+    var viewsPath = path.resolve('./src/views');
+
     app.set('view engine', 'vash');
-    app.set('views', path.resolve('./server/views'));
+    app.set('views', viewsPath);
+    console.log('Views path: ' + viewsPath);
 };
 
 // Configure Express session

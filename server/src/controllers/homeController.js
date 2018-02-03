@@ -13,4 +13,6 @@ module.exports.init = function (app) {
     app.get('/', function (request, res){
         res.render ('index', { title: config.app.title });
     });
+
+    console.log('Home controller initialized');
 };

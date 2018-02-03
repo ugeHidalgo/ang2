@@ -5,7 +5,7 @@
 /**
  * Module dependencies.
  */
-var config = require('../config'),
+var config = require('../config/config'),
     chalk = require('chalk'),
     mongooseService = require ('./mongoose'),
     express = require ('./express'); 
@@ -28,11 +28,11 @@ module.exports.start = function start(callback) {
 
     me.init(function (app, config) {
 
-        var host = (config.host ==='0.0.0.0') ? 'localhost' : config.host,
-            serverUrl = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + host + ':' + config.port;
-
         // Start the app by listening on <port> at <host>
-        app.listen(config.port, config.host, function (serverUrl) {
+        app.listen(config.port, config.host, function () {
+
+            var host = (config.host ==='0.0.0.0') ? 'localhost' : config.host,
+                serverUrl = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + host + ':' + config.port;
 
             // Logging initialization
             console.log();

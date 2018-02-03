@@ -6,7 +6,7 @@
  */
 var chalk = require('chalk'),
     lodash = require('lodash'),
-    config = require('../config'),
+    config = require('../config/config'),
     mongoose = require ('mongoose'); 
     
 
