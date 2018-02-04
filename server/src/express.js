@@ -66,7 +66,8 @@ module.exports.initSession = function (app) {
 //Configure the modules static routes
 module.exports.initModulesClientRoutes = function (app) {
     //Set the public static resource folder.
-    app.use('/', express.static(path.resolve('./public'), { maxAge: 86400000 }));
+    //app.use('/', express.static(path.resolve('./public'), { maxAge: 86400000 }));
+    app.use(express.static(__dirname + '/public'));
 };
 
 //Controllers initialization.
@@ -102,7 +103,7 @@ module.exports.init = function (db) {
     me.initControllers(app);
 
     //Initialize core routes (error and not found handling)
-    me.initCoreRoutes(app);
+    //me.initCoreRoutes(app);
   
     return app;
 };

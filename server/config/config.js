@@ -11,7 +11,7 @@ module.exports = {
     port: process.env.PORT || 3000,
     host: process.env.HOST || '0.0.0.0',
     db : {
-        uri : 'mongodb://localhost:27017/windlogDB', //DB on local computer
+        uri : 'mongodb://localhost:27017/ang2', //DB on local computer
         //uri : 'mongodb://ugeHidalgo:gunnar12A@ds149501.mlab.com:49501/windlogdb', //DB on mLab
         options: {},
         // Enable mongoose debug mode
