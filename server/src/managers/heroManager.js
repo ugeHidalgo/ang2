@@ -7,11 +7,7 @@
 var mongoose = require ('mongoose'),
     Hero = require ('../models/hero');
 
-module.exports.init = function (app) {
+module.exports.getHeroes = function (callbackFn) {
 
-    heroManager.getHeroes = function (callbackFn) {
-        Hero.find(callbackFn);
-   };
-
-   console.log('Heroes manager initialized');
+    Hero.find(callbackFn);
 };

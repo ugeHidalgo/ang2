@@ -14,16 +14,14 @@ module.exports.init = function (app) {
         heroManager.getHeroes (function(error, heroes){
             if (error){
                 console.log('Heroes controller returns an error (400)');
-                response.status(400).send(error);
+                res.status(400).send(error);
             } else {
-                response.set('Content-Type','application/json');
+                res.set('Content-Type','application/json');
                 console.log('Heroes controller returns heroes successfully');
-                response.send(heroes);
+                res.send(heroes);
             }
         });
     });
 
-    heroManager.init(app);
-    
     console.log('Heroes controller initialized');
 };
