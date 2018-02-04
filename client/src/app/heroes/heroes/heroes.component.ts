@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { Hero } from '../../models/hero';
 import { HeroService } from '../../services/hero.service';
 
@@ -10,24 +13,12 @@ import { HeroService } from '../../services/hero.service';
 
 export class HeroesComponent implements OnInit {
 
-  selectedHero: Hero;
   heroes: Hero[];
-
-  hero: Hero = {
-    id: 1,
-    name: 'Windstorm'
-  };
 
   constructor(private heroService: HeroService) { }
 
   ngOnInit() {
     this.getHeroes();
-  }
-
-  onSelect(hero: Hero): void {
-    const me = this;
-
-    me.selectedHero = (hero === this.selectedHero) ? undefined : me.selectedHero = hero;
   }
 
   getHeroes(): void {
