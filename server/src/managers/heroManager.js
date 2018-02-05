@@ -4,10 +4,11 @@
 /**
  * Module dependencies.
  */
-var mongoose = require ('mongoose'),
+var defaultUserName = 'ugehidalgo',
+    mongoose = require ('mongoose'),
     Hero = require ('../models/hero');
 
 module.exports.getHeroes = function (callbackFn) {
 
-    Hero.find(callbackFn);
+    Hero.find({username: defaultUserName}, callbackFn);
 };

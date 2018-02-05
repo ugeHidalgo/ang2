@@ -1,7 +1,9 @@
 var moongoose = require ('mongoose'),
     Schema = moongoose.Schema,
     HeroSchema = new Schema ({
-        name : String
+        id : Number,
+        name : String,
+        username: String
     });
 
-module.exports = moongoose.model ('Hero', HeroSchema);
+module.exports = moongoose.model ('Heroes', HeroSchema);

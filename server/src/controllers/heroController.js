@@ -17,7 +17,7 @@ module.exports.init = function (app) {
                 res.status(400).send(error);
             } else {
                 res.set('Content-Type','application/json');
-                console.log('Heroes controller returns heroes successfully');
+                console.log(`Heroes controller returns ${heroes.length} heroes successfully`);
                 res.send(heroes);
             }
         });

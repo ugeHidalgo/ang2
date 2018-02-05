@@ -7,7 +7,8 @@
 var chalk = require('chalk'),
     lodash = require('lodash'),
     config = require('../config/config'),
-    mongoose = require ('mongoose'); 
+    mongoose = require ('mongoose'),
+    seedTools = require ('./data/seedTools');
     
 
 module.exports.connect = function init(callback) {
@@ -18,7 +19,7 @@ module.exports.connect = function init(callback) {
     .then(function (connection) {
       // Enabling mongoose debug mode if required
       mongoose.set('debug', config.db.debug);
-
+      seedTools.seedHeroesData();
       // Call callback FN
       if (callback) callback(connection.db);
     })
@@ -33,7 +34,6 @@ module.exports.connect = function init(callback) {
         console.error(chalk.red.bold('Could not connect to MongoDB!'));
         console.log(chalk.green('Please check connection configuration on config.js.'));
         console.log('----------------------------------------------');
-        //console.log(err);
     });
 };
 
