@@ -103,7 +103,7 @@ module.exports.init = function (db) {
     me.initControllers(app);
 
     //Initialize core routes (error and not found handling)
-    //me.initCoreRoutes(app);
+    me.initCoreRoutes(app);
   
     return app;
 };
