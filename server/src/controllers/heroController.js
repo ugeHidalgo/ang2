@@ -23,7 +23,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/hero/:name', function (req, res) {
+    app.get ('/api/heroes/:name', function (req, res) {
 
         var name = req.params.name,
             msg;
