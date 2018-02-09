@@ -23,9 +23,10 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/heroes/:name', function (req, res) {
+    app.get ('/api/hero/:name', function (req, res) {
 
-        var name = request.params.name;
+        var name = req.params.name,
+            msg;
             
         heroManager.getHeroByName ( name, function(error, hero){
             if (error){
@@ -33,8 +34,14 @@ module.exports.init = function (app) {
                 res.status(400).send(error);
             } else {
                 res.set('Content-Type','application/json');
-                console.log(`Heroes controller returns hero ${hero.name} successfully`);
-                res.send(hero);
+                if (hero.length === 0 ) {
+                    msg = `No hero found with name: ${name}`;
+                    console.log(msg);
+                    res.status(200).send([msg]);
+                } else {
+                    console.log(`Heroes controller returns hero ${name} successfully.`);
+                    res.send(hero);
+                }
             }
         });
     });

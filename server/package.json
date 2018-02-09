@@ -4,6 +4,7 @@
   "description": "MEAN Stack project",
   "main": "server.js",
   "scripts": {
+    "debug": "node --nolazy --inspect-brk=9229 server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
