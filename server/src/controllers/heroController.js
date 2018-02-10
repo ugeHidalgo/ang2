@@ -11,14 +11,14 @@ module.exports.init = function (app) {
 
     app.get ('/api/heroes', function (req, res) {
             
-        heroManager.getHeroes (function(error, heroes){
+        heroManager.getHeroes (function(error, data){
             if (error){
                 console.log('Heroes controller returns an error (400)');
                 res.status(400).send(error);
             } else {
+                console.log(`Heroes controller returns ${data.length} heroes successfully`);
                 res.set('Content-Type','application/json');
-                console.log(`Heroes controller returns ${heroes.length} heroes successfully`);
-                res.send(heroes);
+                res.send(data);
             }
         });
     });

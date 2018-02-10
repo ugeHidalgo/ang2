@@ -36,6 +36,14 @@ module.exports.initMiddleware = function (app) {
     // Add the cookie parser and flash middleware
     app.use(cookieParser());
     app.use(flash());
+
+    //Avoid no Access-Control-Allow-Origin error
+    app.use( function (req,res, next) {
+        res.header('Access-Control-Allow-Origin',"*");
+        res.header('Access-Control-Allow-Methods',"GET,PUT,POST,DELETE");
+        res.header('Access-Control-Allow-Headers',"Content-Type");
+        next();
+    });
 };
 
 

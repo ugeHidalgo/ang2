@@ -1,4 +1,7 @@
 export class Hero {
-    id: number;
+    _id: string;
     name: string;
+    username: string;
+    __v: number;
 }
+
