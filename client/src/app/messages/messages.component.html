@@ -3,6 +3,6 @@
   <div *ngFor="let message of messageService.messages">{{ message }}</div>
   <button class="ok"
           (click)="messageService.clear()">
-          Ok
+          Clear Messages ({{count}})
   </button>
 </div>
