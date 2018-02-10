@@ -23,6 +23,29 @@ module.exports.init = function (app) {
         });
     });
 
+    app.get ('/api/heroes/:id', function (req, res) {
+
+        var id = req.params.id,
+            msg;
+            
+        heroManager.getHeroById ( id, function(error, hero){
+            if (error){
+                console.log('Heroes controller returns an error (400)');
+                res.status(400).send(error);
+            } else {
+                res.set('Content-Type','application/json');
+                if (hero.length === 0 ) {
+                    msg = `No hero found with id: ${id}`;
+                    console.log(msg);
+                    res.status(200).send([msg]);
+                } else {
+                    console.log(`Heroes controller returns hero ${id} successfully.`);
+                    res.send(hero);
+                }
+            }
+        });
+    });
+
     app.get ('/api/heroes/:name', function (req, res) {
 
         var name = req.params.name,
