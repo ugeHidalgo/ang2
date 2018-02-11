@@ -9,7 +9,7 @@ var heroManager = require('../managers/heroManager');
 
 module.exports.init = function (app) {
 
-    app.get ('/api/heroes', function (req, res) {
+    app.get ('/api/heroes', function (req, res, next) {
             
         heroManager.getHeroes (function(error, data){
             if (error){
@@ -23,7 +23,21 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/heroes/:id', function (req, res) {
+    app.post('/api/heroes', function(request, response){
+
+        var heroToUpdate =  request.body;
+
+        heroManager.updateHero ( heroToUpdate, function(error, updatedHero){
+             if (error){
+                response.status(400).send('Failed to save Hero: ' + updatedHero.name);
+            } else {
+                response.set('Content-Type','application/json');
+                response.status(201).send(updatedHero);
+             }
+        });
+    });
+
+    app.get ('/api/heroes/:id', function (req, res, next) {
 
         var id = req.params.id,
             msg;
@@ -46,7 +60,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/heroes/:name', function (req, res) {
+    app.get ('/api/heroes/:name', function (req, res, next) {
 
         var name = req.params.name,
             msg;

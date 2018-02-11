@@ -17,6 +17,7 @@ const httpOtions = {
 export class HeroService {
 
   private server = 'http://192.168.1.104:3000/';
+  // private server = 'http://localhost:3000/';
   private heroesUrl  = this.server + 'api/heroes';
 
   constructor(
@@ -24,6 +25,7 @@ export class HeroService {
     private messageService: MessageService
   ) { }
 
+  /**.*/
   getHeroes(): Observable<Hero[]> {
     const me = this;
     return me.http.get<Hero[]>(me.heroesUrl)
@@ -33,6 +35,7 @@ export class HeroService {
               );
   }
 
+  /**.*/
   getHeroById(id: string): Observable<Hero> {
     const me = this,
         getHeroByIdUrl = `${me.heroesUrl}/${id}`,
@@ -42,6 +45,22 @@ export class HeroService {
                         catchError(me.handleError<Hero>(`getHero (id:${id}`))
                       );
     return hero;
+  }
+
+  /**.*/
+  updateHero(hero: Hero): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+    };
+
+    const me = this,
+          savedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
+                        .pipe(
+                          tap(_ => me.log(`Hero with id ${hero._id} was updated.`)),
+                          catchError(me.handleError<any>('updateHero (id:${hero._id}'))
+                        );
+
+        return savedHero;
   }
 
    // Private methods -------------

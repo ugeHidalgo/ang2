@@ -27,6 +27,7 @@ export class MessagesComponent implements OnInit {
     me.count--;
     if (me.count <= 0) {
       me.messageService.clear();
+      me.count = 5;
       return;
     }
     setTimeout(() => {

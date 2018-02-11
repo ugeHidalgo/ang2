@@ -22,3 +22,39 @@ module.exports.getHeroByName = function (name, callbackFn) {
 
     Hero.find({username: defaultUserName, name: name}, callbackFn);
 };
+
+module.exports.updateHero = function (hero, callbackFn) {
+
+    var updatedValues = {};
+
+    if (hero._id) {
+        //Update existing hero.
+        updatedValues = {
+            name: hero.name,
+        };
+ 
+         Hero.findOneAndUpdate(
+            {_id: hero._id}, 
+            { $set: updatedValues },
+            function (error){
+                if (error){
+                    callbackFn(error, null);
+                } else {
+                    console.log ('Hero data updated -->username = ' + hero.username + ' /id = ' + hero._id);                        
+                    callbackFn(null, hero)
+                }
+            }); 
+    } else {
+        //Create new hero.
+        var newHero = new Hero(hero);
+
+        newHero.save(function (error) {
+            if (error) {
+                callbackFn(error, null);
+            } else {
+                console.log ('New hero saved ----->username = ' + newHero.username + ' /id = ' + newHero._id);
+                callbackFn(null, newHero);
+            }
+        });
+    } 
+};

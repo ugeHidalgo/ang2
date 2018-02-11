@@ -35,7 +35,18 @@ export class HeroDetailComponent implements OnInit {
       });
   }
 
-  goBack() {
+  // Buttons methods
+  onClickSaveHero(): void {
+    const me = this;
+
+    me.heroService.updateHero(me.hero)
+        .subscribe( () => {
+            me.onClickGoBack();
+          }
+        );
+  }
+
+  onClickGoBack() {
     this.location.back();
   }
 
