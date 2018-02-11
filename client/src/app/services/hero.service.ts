@@ -42,10 +42,23 @@ export class HeroService {
           savedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
                         .pipe(
                           tap(_ => me.log(`Hero with id ${savedHero._id} was created.`)),
-                          catchError(me.handleError<any>('addHero (id:${savedHero._id}'))
+                          catchError(me.handleError<any>('addHero: failed to create new hero.'))
                         );
 
     return savedHero;
+  }
+
+  /**.*/
+  deleteHero(hero: Hero | number): Observable<Hero> {
+    const me = this,
+          id = typeof hero === 'number' ? hero : hero._id,
+          deleteHeroUrl = `${me.heroesUrl}/${id}`;
+
+    return me.http.delete<Hero>(deleteHeroUrl, httpOptions)
+              .pipe(
+                tap(_ => me.log(`Hero with id ${id} was deleted.`)),
+                catchError(me.handleError<any>(`deleteHero (id:${id})`))
+              );
   }
 
   /**.*/
@@ -67,7 +80,7 @@ export class HeroService {
           updatedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
                         .pipe(
                           tap(_ => me.log(`Hero with id ${hero._id} was updated.`)),
-                          catchError(me.handleError<any>('updateHero (id:${hero._id}'))
+                          catchError(me.handleError<any>(`updateHero (id:${hero._id}`))
                         );
 
     return updatedHero;

@@ -23,6 +23,11 @@ module.exports.getHeroByName = function (name, callbackFn) {
     Hero.find({username: defaultUserName, name: name}, callbackFn);
 };
 
+module.exports.deleteHeroById = function (id, callbackFn) { 
+    Hero.deleteOne({username: defaultUserName, _id: id}, callbackFn);
+};
+
+
 module.exports.updateHero = function (hero, callbackFn) {
 
     var updatedValues = {};

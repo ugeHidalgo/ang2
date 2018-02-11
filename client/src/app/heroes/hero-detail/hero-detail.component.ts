@@ -36,6 +36,16 @@ export class HeroDetailComponent implements OnInit {
   }
 
   // Buttons methods
+
+  onClickDeleteHero(): void {
+    const me = this;
+
+    me.heroService.deleteHero(me.hero)
+      .subscribe( () => {
+        me.location.back();
+      });
+  }
+
   onClickSaveHero(): void {
     const me = this;
 
