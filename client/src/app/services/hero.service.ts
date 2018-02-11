@@ -9,7 +9,7 @@ import { HEROES } from './mock-heroes';
 import { MessageService } from './message.service';
 
 
-const httpOtions = {
+const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
 };
 
@@ -28,11 +28,24 @@ export class HeroService {
   /**.*/
   getHeroes(): Observable<Hero[]> {
     const me = this;
+
     return me.http.get<Hero[]>(me.heroesUrl)
               .pipe(
                 tap(heroes => me.log('Heroes fetched.')),
                 catchError(me.handleError('getHeroes', []))
               );
+  }
+
+  /**.*/
+  addHero(hero: Hero): Observable<any> {
+    const me = this,
+          savedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
+                        .pipe(
+                          tap(_ => me.log(`Hero with id ${savedHero._id} was created.`)),
+                          catchError(me.handleError<any>('addHero (id:${savedHero._id}'))
+                        );
+
+    return savedHero;
   }
 
   /**.*/
@@ -42,25 +55,22 @@ export class HeroService {
         hero = me.http.get<Hero>(getHeroByIdUrl)
                       .pipe(
                         tap(_ => me.log(`Hero with id ${id} was fetched.`)),
-                        catchError(me.handleError<Hero>(`getHero (id:${id}`))
+                        catchError(me.handleError<Hero>(`getHeroById (id:${id}`))
                       );
     return hero;
   }
 
   /**.*/
   updateHero(hero: Hero): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-    };
 
     const me = this,
-          savedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
+          updatedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
                         .pipe(
                           tap(_ => me.log(`Hero with id ${hero._id} was updated.`)),
                           catchError(me.handleError<any>('updateHero (id:${hero._id}'))
                         );
 
-        return savedHero;
+    return updatedHero;
   }
 
    // Private methods -------------

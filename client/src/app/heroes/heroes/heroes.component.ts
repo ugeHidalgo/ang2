@@ -21,6 +21,16 @@ export class HeroesComponent implements OnInit {
     this.getHeroes();
   }
 
+  onAddHero(heroName: string): void {
+    const me = this,
+          newHero = new Hero();
+    newHero.name = heroName;
+    newHero.username = 'ugehidalgo'; // Should be loaded from the logged user
+
+    me.heroService.addHero(newHero)
+      .subscribe(newHeroAdded => me.heroes.push(newHeroAdded));
+  }
+
   getHeroes(): void {
     const me = this;
 
