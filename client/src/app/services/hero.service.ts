@@ -86,6 +86,25 @@ export class HeroService {
     return updatedHero;
   }
 
+  /**.*/
+  filterHeroes(term: string): Observable<Hero[]> {
+    const me = this;
+    let getHeroByNameUrl;
+
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+
+    getHeroByNameUrl = `${me.heroesUrl}/?name=${term}`;
+
+    return me.http.get<Hero[]>(getHeroByNameUrl)
+          .pipe(
+            tap(heroes => me.log(`Found heroes matching ${term}`)),
+            catchError(me.handleError<Hero[]>('filterHeroes', []))
+          );
+  }
+
    // Private methods -------------
 
 
