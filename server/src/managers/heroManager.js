@@ -18,9 +18,10 @@ module.exports.getHeroById = function (id, callbackFn) {
     Hero.find({username: defaultUserName, _id: id}, callbackFn);
 };
 
-module.exports.getHeroByName = function (name, callbackFn) {
+module.exports.getHeroesByName = function (name, callbackFn) {
 
-    Hero.find({username: defaultUserName, name: name}, callbackFn);
+    var regexString = `/${name}/`;
+    Hero.find({username: defaultUserName, name: new RegExp(name, 'i')}, callbackFn);
 };
 
 module.exports.deleteHeroById = function (id, callbackFn) { 

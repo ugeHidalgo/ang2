@@ -18,12 +18,35 @@ module.exports.init = function (app) {
             } else {
                 console.log(`Heroes controller returns ${data.length} heroes successfully`);
                 res.set('Content-Type','application/json');
-                res.send(data);
+                res.status(200).send(data);
             }
         });
     });
 
-    app.post('/api/heroes', function(request, response){
+    app.get ('/api/heroes/:name', function (req, res, next) {
+
+        var name = req.params.name,
+            msg;
+            
+        heroManager.getHeroesByName ( name, function(error, heroes){
+            if (error){
+                console.log('Heroes controller returns an error (400)');
+                res.status(400).send(error);
+            } else {
+                res.set('Content-Type','application/json');
+                if (heroes.length === 0 ) {
+                    msg = `No heroes found with name: ${name}`;
+                    console.log(msg);
+                    res.status(200).send([msg]);
+                } else {
+                    console.log(`Heroes controller returns heroes ${heroes.length} successfully.`);
+                    res.status(200).send(heroes);
+                }
+            }
+        });
+    });
+
+    app.post('/api/heroes', function(request, response, next){
 
         var heroToUpdate =  request.body;
 
@@ -77,29 +100,6 @@ module.exports.init = function (app) {
                     res.status(200).send([msg]);
                 } else {
                     console.log(`Heroes controller deletes hero ${id} successfully.`);
-                    res.send(hero);
-                }
-            }
-        });
-    });
-
-    app.get ('/api/heroes/:name', function (req, res, next) {
-
-        var name = req.params.name,
-            msg;
-            
-        heroManager.getHeroByName ( name, function(error, hero){
-            if (error){
-                console.log('Heroes controller returns an error (400)');
-                res.status(400).send(error);
-            } else {
-                res.set('Content-Type','application/json');
-                if (hero.length === 0 ) {
-                    msg = `No hero found with name: ${name}`;
-                    console.log(msg);
-                    res.status(200).send([msg]);
-                } else {
-                    console.log(`Heroes controller returns hero ${name} successfully.`);
                     res.send(hero);
                 }
             }

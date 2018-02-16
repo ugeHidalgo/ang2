@@ -49,7 +49,7 @@ module.exports.initMiddleware = function (app) {
 
 //Configure view engine and the root folder for the server views.
 module.exports.initViewEngine = function (app) {
-    var viewsPath = path.resolve('./src/views');
+    var viewsPath = path.resolve('./server/src/views');
 
     app.set('view engine', 'vash');
     app.set('views', viewsPath);

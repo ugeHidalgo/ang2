@@ -7,7 +7,7 @@ module.exports.init = function (app) {
         var err = new Error();
         err.status = 404;
         next(err);
-    });
+    }); 
        
     // Handling 404 errors
     app.use(function(err, req, res, next) {
@@ -19,9 +19,11 @@ module.exports.init = function (app) {
     });
 
     // Handling 500 errors
-    app.use(function(err, req, res, next) {
-      res.status(500);
-      res.send('oops! something broke', { error : err });
+    app.use(function(err, req, res) {
+        if(err.status !== 500) {
+            return;
+          }
+        res.render('500', { error : err });
     });
 
 };
