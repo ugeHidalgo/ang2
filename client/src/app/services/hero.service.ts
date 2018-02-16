@@ -96,11 +96,11 @@ export class HeroService {
       return of([]);
     }
 
-    getHeroByNameUrl = `${me.heroesUrl}/?name=${term}`;
+    getHeroByNameUrl = `${me.heroesUrl}/${term}`;
 
     return me.http.get<Hero[]>(getHeroByNameUrl)
           .pipe(
-            tap(heroes => me.log(`Found heroes matching ${term}`)),
+            tap(heroes => me.log(`Found heroes ${heroes.length} matching ${term}`)),
             catchError(me.handleError<Hero[]>('filterHeroes', []))
           );
   }
