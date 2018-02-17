@@ -19,6 +19,7 @@ export class HeroService {
   private server = 'http://192.168.1.104:3000/';
   // private server = 'http://localhost:3000/';
   private heroesUrl  = this.server + 'api/heroes';
+  private heroUrl  = this.server + 'api/hero';
 
   constructor(
     private http: HttpClient,
@@ -38,14 +39,16 @@ export class HeroService {
 
   /**.*/
   addHero(hero: Hero): Observable<any> {
-    const me = this,
-          savedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
-                        .pipe(
-                          tap(_ => me.log(`Hero with id ${savedHero._id} was created.`)),
-                          catchError(me.handleError<any>('addHero: failed to create new hero.'))
-                        );
+    const me = this;
 
-    return savedHero;
+    return me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
+              .pipe(
+                tap(savedHero => {
+                  me.log(`Hero with id ${savedHero._id} was created.`);
+                  return savedHero;
+                }),
+                catchError(me.handleError<any>('addHero: failed to create new hero.'))
+              );
   }
 
   /**.*/
@@ -64,7 +67,7 @@ export class HeroService {
   /**.*/
   getHeroById(id: string): Observable<Hero> {
     const me = this,
-        getHeroByIdUrl = `${me.heroesUrl}/${id}`,
+        getHeroByIdUrl = `${me.heroUrl}/?id=${id}`,
         hero = me.http.get<Hero>(getHeroByIdUrl)
                       .pipe(
                         tap(_ => me.log(`Hero with id ${id} was fetched.`)),
@@ -96,7 +99,7 @@ export class HeroService {
       return of([]);
     }
 
-    getHeroByNameUrl = `${me.heroesUrl}/${term}`;
+    getHeroByNameUrl = `${me.heroUrl}/?name=${term}`;
 
     return me.http.get<Hero[]>(getHeroByNameUrl)
           .pipe(
