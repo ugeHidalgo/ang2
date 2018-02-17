@@ -42,38 +42,41 @@ ___
         Set path for databases with mongod --dbpath path
 
     - Install dependecies needed:
-
+    <code>
         cd ang2
         cd server
         npm install
         cd ..
         cd client
         npm install
+    </code>
 
 -3 Run:
     Launch mongoDB in a console:
-
+    <code>
         mongod
-    
+    </code>
     Launch server side with any of these options:
-
+    <code>
         - npm start 
         - gulp
         - gulp default
         - gulp develop
-
+    </code>
     Access site to http://localhost:3000
 
     Launch client side with any of these:
-
+    <code>
         - ng serve
         - ng serve --host 0.0.0.0  (If you one to connect to your client side server from other machine different than localhost)
+        - ng serve --proxy-config proxy.config.json --host 0.0.0.0 (Uses the proxy.config.json to send all api requests to the server side at http://localhost:3000 )
+    </code>
 
-
-
--4 Debug server side with node inspector:
+-4 Debug server side with the debugger in visual studio code or with node inspector:
+    <code>
     node --inspect --debug .
     Copiar url y pegar en un browser.
+    </code>
 
 -5 Remote Data base can also be used hosted in mLab (Need to change local db config to remote. See dbConfig.js to change it)
 
