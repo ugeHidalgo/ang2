@@ -16,8 +16,8 @@ const httpOptions = {
 @Injectable()
 export class HeroService {
 
-  private server = 'http://192.168.1.104:3000/';
-  // private server = 'http://localhost:3000/';
+  // private server = 'http://192.168.1.104:3000/';
+  private server = 'http://localhost:3000/';
   private heroesUrl  = this.server + 'api/heroes';
   private heroUrl  = this.server + 'api/hero';
 
@@ -38,16 +38,13 @@ export class HeroService {
   }
 
   /**.*/
-  addHero(hero: Hero): Observable<any> {
-    const me = this;
-
-    return me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
+  addHero(hero: Hero): Observable<Hero> {
+    const body = JSON.stringify(hero);
+    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions)
               .pipe(
-                tap(savedHero => {
-                  me.log(`Hero with id ${savedHero._id} was created.`);
-                  return savedHero;
-                }),
-                catchError(me.handleError<any>('addHero: failed to create new hero.'))
+                // tslint:disable-next-line:no-shadowed-variable
+                tap((hero: Hero) => this.log(`Hero with id ${hero._id} was created.`)),
+                catchError(this.handleError<Hero>('addHero: failed to create new hero.'))
               );
   }
 
@@ -122,7 +119,7 @@ export class HeroService {
    * @param operation - name of the operation that failed.
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T){
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
       this.log(`${operation} failed: ${error.message}`);

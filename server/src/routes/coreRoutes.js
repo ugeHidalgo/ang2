@@ -3,11 +3,11 @@
 
 module.exports.init = function (app) {
 
-    app.get('*', function(req, res, next) {
+    /* app.get('*', function(req, res, next) {
         var err = new Error();
         err.status = 404;
         next(err);
-    }); 
+    });  */
        
     // Handling 404 errors
     app.use(function(err, req, res, next) {

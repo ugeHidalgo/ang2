@@ -27,9 +27,7 @@ module.exports.initMiddleware = function (app) {
     }
   
     // Request body parsing middleware should be above methodOverride
-    app.use(bodyParser.urlencoded({
-      extended: true
-    }));
+    app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(methodOverride());
   
@@ -37,13 +35,14 @@ module.exports.initMiddleware = function (app) {
     app.use(cookieParser());
     app.use(flash());
 
-    //Avoid no Access-Control-Allow-Origin error
+    //Avoid no Access-Control-Allow-Origin error (CORS)
     app.use( function (req,res, next) {
-        res.header('Access-Control-Allow-Origin',"*");
+        // res.header('Access-Control-Allow-Origin',"*");
+        res.header('Access-Control-Allow-Origin',"http://localhost:4200");        
         res.header('Access-Control-Allow-Methods',"GET,PUT,POST,DELETE");
         res.header('Access-Control-Allow-Headers',"Content-Type");
         next();
-    });
+    }); 
 };
 
 
