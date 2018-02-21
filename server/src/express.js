@@ -6,6 +6,7 @@
  */
 var config = require('../config/config'),
     express = require ('express'),
+    cors = require ('cors'),
     expressSession = require('express-session'),
     bodyParser = require('body-parser'),
     flash = require('connect-flash'),
@@ -32,6 +33,21 @@ module.exports.initMiddleware = function (app) {
       }));
     app.use(bodyParser.json());
     app.use(methodOverride());
+
+    //Cross Origin Resource Sharing
+    var originsWhitelist = [
+        'http://localhost:4200',      //this is my front-end url for development
+        'http://www.myproductionurl.com'
+      ];
+
+    var corsOptions = {
+        origin: function(origin, callback){
+                var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
+                callback(null, isWhitelisted);
+        },
+        credentials:true
+    }
+    app.use(cors(corsOptions));
   
     // Add the cookie parser and flash middleware
     app.use(cookieParser());
@@ -42,7 +58,7 @@ module.exports.initMiddleware = function (app) {
         // res.header('Access-Control-Allow-Origin',"*");
         res.header('Access-Control-Allow-Origin',"http://localhost:4200");        
         res.header('Access-Control-Allow-Methods',"GET,PUT,POST,DELETE");
-        res.header('Access-Control-Allow-Headers',"Content-Type");
+        res.header('Access-Control-Allow-Headers',"X-Requested-With, Content-Type");
         next();
     }); 
 };

@@ -9,7 +9,7 @@ var heroManager = require('../managers/heroManager');
 
 
 module.exports.init = function (app) {
-
+    // (POST)http:localhost:3000/api/heroes body: {name: 'a name', username:'ugeHidalgo'}
     app.post('/api/heroes', function(request, response, next){
 
         var heroToUpdate =  request.body;
