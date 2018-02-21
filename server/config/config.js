@@ -35,5 +35,12 @@ module.exports = {
         privateKey: './config/sslcerts/key.pem',
         certificate: './config/sslcerts/cert.pem',
         caBundle: './config/sslcerts/cabundle.crt'
+    },
+    cors: { //Allow CORS for the given urls
+        originsWhitelist: [ 
+            'http://localhost:4200',      //this is my front-end url for development
+            'http://www.myproductionurl.com'
+        ],
+        credentials: true
     }
 };

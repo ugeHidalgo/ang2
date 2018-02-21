@@ -35,32 +35,18 @@ module.exports.initMiddleware = function (app) {
     app.use(methodOverride());
 
     //Cross Origin Resource Sharing
-    var originsWhitelist = [
-        'http://localhost:4200',      //this is my front-end url for development
-        'http://www.myproductionurl.com'
-      ];
-
     var corsOptions = {
         origin: function(origin, callback){
-                var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
+                var isWhitelisted = config.cors.originsWhitelist.indexOf(origin) !== -1;
                 callback(null, isWhitelisted);
         },
-        credentials:true
+        credentials: config.cors.credentials
     }
     app.use(cors(corsOptions));
   
     // Add the cookie parser and flash middleware
     app.use(cookieParser());
     app.use(flash());
-
-    //Avoid no Access-Control-Allow-Origin error (CORS)
-    app.use( function (req,res, next) {
-        // res.header('Access-Control-Allow-Origin',"*");
-        res.header('Access-Control-Allow-Origin',"http://localhost:4200");        
-        res.header('Access-Control-Allow-Methods',"GET,PUT,POST,DELETE");
-        res.header('Access-Control-Allow-Headers',"X-Requested-With, Content-Type");
-        next();
-    }); 
 };
 
 
