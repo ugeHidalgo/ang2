@@ -38,10 +38,9 @@ module.exports = {
     },
     cors: { //Allow CORS for the given urls
         originsWhitelist: [ 
-            'http://localhost:4200',      //this is my front-end url for development
-            'http://192.168.1.104:4200',
-
-            'http://www.myproductionurl.com'
+            'http://localhost:4200',      //My local front-end url for development.
+            'http://192.168.1.104:4200',  //Second CPU front-end url for development also.
+            'http://www.myproductionurl.com' //My production front-end url.
         ],
         credentials: true
     }
