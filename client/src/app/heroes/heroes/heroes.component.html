@@ -3,7 +3,9 @@
   <label>Hero name: 
     <input #heroName />
   </label>
-  <button (click)="onAddHero(heroName.value); heroName.value=''">Add Hero</button> 
+  <button type="button" class="btn btn-primary" (click)="onAddHero(heroName.value); heroName.value=''">
+      Add Hero
+  </button>
 </div>
 <ul class="heroes">
     <li *ngFor="let hero of heroes">
