@@ -16,8 +16,8 @@ const httpOptions = {
 @Injectable()
 export class HeroService {
 
-  // private server = 'http://192.168.1.104:3000/';
-  private server = 'http://localhost:3000/';
+  private server = 'http://192.168.1.104:3000/';
+  // private server = 'http://localhost:3000/';
   private heroesUrl  = this.server + 'api/heroes';
   private heroUrl  = this.server + 'api/hero';
 
