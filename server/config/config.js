@@ -8,8 +8,14 @@ module.exports = {
         keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
         googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
     },
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || '0.0.0.0',
+    cors: { //Allow CORS for the given urls
+        originsWhitelist: [ 
+            'http://localhost:4200',      //My local front-end url for development.
+            'http://192.168.1.104:4200',  //Second CPU front-end url for development also.
+            'http://www.myproductionurl.com' //My production front-end url.
+        ],
+        credentials: true
+    },
     db : {
         uri : 'mongodb://localhost:27017/ang2', //DB on local computer
         //uri : 'mongodb://ugeHidalgo:gunnar12A@ds149501.mlab.com:49501/windlogdb', //DB on mLab
@@ -17,7 +23,14 @@ module.exports = {
         // Enable mongoose debug mode
         debug: process.env.MONGODB_DEBUG || false
     },
-    sessionSecret: process.env.SESSION_SECRET || 'anystringhereisvalidtoencript',
+    host: process.env.HOST || '0.0.0.0',
+    port: process.env.PORT || 3000,
+    secure: {
+        ssl: true,
+        privateKey: './config/sslcerts/key.pem',
+        certificate: './config/sslcerts/cert.pem',
+        caBundle: './config/sslcerts/cabundle.crt'
+    },
     sessionCookie: {
         // session expiration is set by default to 24 hours
         maxAge: 24 * (60 * 60 * 1000),
@@ -30,18 +43,5 @@ module.exports = {
         secure: false
     },
     sessionKey: 'sessionId',
-    secure: {
-        ssl: true,
-        privateKey: './config/sslcerts/key.pem',
-        certificate: './config/sslcerts/cert.pem',
-        caBundle: './config/sslcerts/cabundle.crt'
-    },
-    cors: { //Allow CORS for the given urls
-        originsWhitelist: [ 
-            'http://localhost:4200',      //My local front-end url for development.
-            'http://192.168.1.104:4200',  //Second CPU front-end url for development also.
-            'http://www.myproductionurl.com' //My production front-end url.
-        ],
-        credentials: true
-    }
+    sessionSecret: process.env.SESSION_SECRET || 'anystringhereisvalidtoencript'
 };
