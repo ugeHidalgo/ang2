@@ -12,6 +12,7 @@ import { MessageService } from './services/message.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
+import { LoginComponent } from './login/login/login.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
     HeroDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    HeroSearchComponent
+    HeroSearchComponent,
+    LoginComponent
   ],
 
   imports: [
