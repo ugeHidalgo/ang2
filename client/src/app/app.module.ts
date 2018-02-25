@@ -13,6 +13,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoginComponent } from './login/login/login.component';
+import { RegisterComponent } from './login/register/register.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { LoginComponent } from './login/login/login.component';
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
 
   imports: [
