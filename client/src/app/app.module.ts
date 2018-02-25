@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrCustomOptions } from './messages/toastrCustomOptions';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes/heroes.component';
@@ -14,7 +18,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterComponent } from './login/register/register.component';
-
 
 @NgModule({
   declarations: [
@@ -30,14 +33,17 @@ import { RegisterComponent } from './login/register/register.component';
 
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastModule.forRoot()
   ],
 
   providers: [
     HeroService,
-    MessageService
+    MessageService,
+    {provide: ToastOptions, useClass: ToastrCustomOptions}
   ],
 
   bootstrap: [

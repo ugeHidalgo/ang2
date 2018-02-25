@@ -112,7 +112,7 @@ export class HeroService {
    * @param message - Message to be added to the list.
    */
    private log(message: string): void {
-    this.messageService.add('HeroService: ' + message );
+    // this.messageService.add('HeroService: ' + message );
   }
 
   /**
