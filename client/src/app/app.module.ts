@@ -10,6 +10,7 @@ import { ToastrCustomOptions } from './messages/toastrCustomOptions';
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes/heroes.component';
 import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
+import { UserService } from './services/user/user.service';
 import { HeroService } from './services/hero.service';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './services/message.service';
@@ -41,6 +42,7 @@ import { RegisterComponent } from './login/register/register.component';
   ],
 
   providers: [
+    UserService,
     HeroService,
     MessageService,
     {provide: ToastOptions, useClass: ToastrCustomOptions}
