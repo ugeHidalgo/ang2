@@ -7,6 +7,20 @@
 var mongoose = require ('mongoose'),
     User = require ('../models/user');
 
+module.exports.isAuthenticatedUser = function( userData, callbackFn) {
+
+    this.getUserByUserName(userData.userName, function (err, user) {
+
+        if (err) { return callbackFn(err); }
+        if (!user) { return callbackFn(null, false); }
+            
+        if (userData.password !== user[0].password) {
+                return callbackFn (null, false);
+        }
+        return callbackFn (null, true);
+    });
+}
+
 module.exports.getUserById = function (id, callbackFn) {
 
     User.find({_id: id}, callbackFn);
@@ -15,7 +29,7 @@ module.exports.getUserById = function (id, callbackFn) {
 module.exports.getUserByUserName = function (userName, callbackFn) {
 
     var regexString = `/${userName}/`;
-    Hero.find({username: new RegExp(userName, 'i')}, callbackFn);
+    User.find({username: new RegExp(userName, 'i')}, callbackFn);
 };
 
 module.exports.updateUser = function (user, callbackFn) {

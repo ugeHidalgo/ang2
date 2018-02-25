@@ -24,6 +24,25 @@ module.exports.init = function (app) {
         });
     });
 
+    app.post('/api/auth', function(req, res, next){
+
+        var userData =  req.body;
+
+        userManager.isAuthenticatedUser ( userData, function(error, isAuthenticatedUser){
+             if (error){
+                res.status(400).send('Failed to authenticate user: ' + userData.userName);
+            } else {
+                if (isAuthenticatedUser) {
+                    res.set('Content-Type','application/json');
+                    res.status(201).send(isAuthenticatedUser);
+                }
+                else {
+                    res.status(401).send('Not authorized.');
+                }
+             }
+        });
+    });
+
     app.get ('/api/user/:username', function (req, res, next) {
         var id = req.params.id,
             msg;

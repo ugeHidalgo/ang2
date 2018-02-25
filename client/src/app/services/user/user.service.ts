@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-// import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { catchError, map, tap } from 'rxjs/operators';
 
@@ -16,12 +16,18 @@ export class UserService {
   private server = 'http://192.168.1.104:3000/';
   // private server = 'http://localhost:3000/';
   private userUrl  = this.server + 'api/user';
+  private authUserUrl  = this.server + 'api/auth';
 
   constructor( private http: HttpClient) { }
 
   /**.*/
+  isUserAuthenticated(userData: any): Observable<boolean> {
+    return this.http.post<boolean>(this.authUserUrl, userData, httpOptions);
+  }
+
+  /**.*/
   registerUser(user: User): Observable<User> {
-    const body = JSON.stringify(user);
+    // const body = JSON.stringify(user);
     return this.http.post<User>(this.userUrl, user, httpOptions);
   }
 
