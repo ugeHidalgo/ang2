@@ -43,7 +43,6 @@ export class HeroesComponent implements OnInit {
     me.heroService.getHeroes()
       .subscribe(heroes => {
         me.heroes = heroes;
-        me.toastr.success('Hero list successfully retrieved');
       });
   }
 

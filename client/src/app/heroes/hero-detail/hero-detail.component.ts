@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+
+import { ToastsManager } from 'ng2-toastr';
 
 import { HeroService } from '../../services/hero.service';
 import { Hero } from '../../models/hero';
@@ -18,8 +20,10 @@ export class HeroDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
-  ) { }
+    private location: Location,
+    public toastr: ToastsManager, vcr: ViewContainerRef) {
+      this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.getHeroById();
@@ -31,6 +35,7 @@ export class HeroDetailComponent implements OnInit {
 
     me.heroService.getHeroById(id)
       .subscribe( hero => {
+          me.toastr.info('Hero was successfully retrieved.');
           me.hero = hero[0];
       });
   }
@@ -42,6 +47,7 @@ export class HeroDetailComponent implements OnInit {
 
     me.heroService.deleteHero(me.hero)
       .subscribe( () => {
+        me.toastr.success('Hero was successfully deleted.');
         me.location.back();
       });
   }
@@ -50,10 +56,11 @@ export class HeroDetailComponent implements OnInit {
     const me = this;
 
     me.heroService.updateHero(me.hero)
-        .subscribe( () => {
-            me.onClickGoBack();
-          }
-        );
+      .subscribe( () => {
+          me.toastr.success('Hero was successfully saved.', 'Saved!');
+          me.location.back();
+        }
+      );
   }
 
   onClickGoBack() {
