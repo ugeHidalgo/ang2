@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { UserService } from '../../services/user/user.service';
@@ -13,7 +14,11 @@ export class RegisterComponent implements OnInit {
   user: User = new User();
   loading = false;
 
-  constructor(private userService: UserService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    public toastr: ToastsManager,
+    vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
  }
 
@@ -28,9 +33,10 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         newUserAdded => {
           me.toastr.success(`User ${newUserAdded.username} was successfully added.`);
+          me.router.navigate(['/login']);
         },
         error => {
-          me.toastr.error(error);
+          me.toastr.error(error.error);
           me.loading = false;
         }
       );
