@@ -19,6 +19,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterComponent } from './login/register/register.component';
+import { GlobalsService } from './services/globals/globals.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RegisterComponent } from './login/register/register.component';
     UserService,
     HeroService,
     MessageService,
-    {provide: ToastOptions, useClass: ToastrCustomOptions}
+    {provide: ToastOptions, useClass: ToastrCustomOptions },
+    GlobalsService
   ],
 
   bootstrap: [

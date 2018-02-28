@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero';
+import { GlobalsService } from '../services/globals/globals.service';
 
 
 @Component({
@@ -13,7 +14,10 @@ export class DashboardComponent implements OnInit {
 
   heroes: Hero[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(
+    protected globals: GlobalsService,
+    private heroService: HeroService
+  ) { }
 
   ngOnInit() {
     this.getHeroes();

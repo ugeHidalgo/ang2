@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { UserService } from '../../services/user/user.service';
+import { GlobalsService } from '../../services/globals/globals.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    protected globals: GlobalsService,
     private userService: UserService,
     public toastr: ToastsManager,
     vcr: ViewContainerRef ) {
@@ -33,11 +35,13 @@ export class LoginComponent implements OnInit {
     me.userService.isUserAuthenticated(me.model)
       .subscribe(
         data => {
+          me.globals.setUser(me.model.userName);
           me.router.navigate(['/dashboard']);
         },
         error => {
           me.toastr.error('Username/Password are not correct.');
           me.loading = false;
+          me.globals.clearUser();
         }
       );
   }
