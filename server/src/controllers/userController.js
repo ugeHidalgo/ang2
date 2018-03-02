@@ -4,11 +4,16 @@
 /**
  * Module dependencies.
  */
-var url = require ('url');
-var userManager = require('../managers/userManager');
+var url = require ('url'),
+    userManager = require('../managers/userManager');
 
 
+/**
+ * Public methods.
+ */
 module.exports.init = function (app) {
+
+    // Register a new user.
     // (POST)http:localhost:3000/api/user body: {firstName: 'a name', username:'ugeHidalgo', ...}
     app.post('/api/user', function(request, response, next){
 
@@ -24,6 +29,7 @@ module.exports.init = function (app) {
         });
     });
 
+    // Verify if an user can access
     app.post('/api/auth', function(req, res, next){
 
         var userData =  req.body;

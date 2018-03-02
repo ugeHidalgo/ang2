@@ -5,16 +5,27 @@
  * Module dependencies.
  */
 var mongoose = require ('mongoose'),
+    hasher = require ('../auth/hasher'),
     User = require ('../models/user');
 
-module.exports.isAuthenticatedUser = function( userData, callbackFn) {
+/**
+ * Public methods.
+ */
+module.exports.isAuthenticatedUser = function( receivedUser, callbackFn) {
 
-    this.getUserByExactUserName(userData.userName, function (err, user) {
+    this.getUserByExactUserName(receivedUser.userName, function (err, userInDb) {
+        var receivedHashedPassword,
+            storedHashedPassword,
+            userInDb;
 
         if (err) { return callbackFn(err); }
-        if (!user || user.length === 0) { return callbackFn(null, false); }
-            
-        if (userData.password !== user[0].password) {
+        if (!userInDb || userInDb.length === 0) { return callbackFn(null, false); }
+        
+        userInDb = userInDb[0];
+        receivedHashedPassword = hasher.computeHash(receivedUser.password, userInDb.salt);
+        storedHashedPassword = userInDb.password;
+
+        if (receivedHashedPassword !== storedHashedPassword) {
                 return callbackFn (null, false);
         }
         return callbackFn (null, true);
@@ -39,30 +50,23 @@ module.exports.getUserByUserName = function (userName, callbackFn) {
 
 module.exports.updateUser = function (user, callbackFn) {
 
-    var updatedValues = {};
-
     if (user._id) {
-        //Update existing user.
-        updatedValues = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            password: user.password,
-        };
- 
-         User.findOneAndUpdate(
-            {_id: user._id}, 
-            { $set: updatedValues },
-            function (error){
-                if (error){
-                    callbackFn(error, null);
-                } else {
-                    console.log ('User data updated -->username = ' + user.username + ' /id = ' + user._id);                        
-                    callbackFn(null, user)
-                }
-            }); 
+        updateExistingUser (user, callbackFn)
     } else {
-        //Create new user.
-        var newUser = new User(user);
+        createNewUser(user, callbackFn);
+    } 
+};
+
+
+/**
+ * Private methods.
+ */
+function createNewUser (user, callbackFn){
+    var newUser = new User(user),
+            salt = hasher.createSalt();
+
+        newUser.password = hasher.computeHash(user.password, salt);
+        newUser.salt = salt;
 
         newUser.save(function (error) {
             if (error) {
@@ -72,5 +76,25 @@ module.exports.updateUser = function (user, callbackFn) {
                 callbackFn(null, newUser);
             }
         });
-    } 
+};
+
+function updateExistingUser (user, callbackFn) {
+
+    var updatedValues = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        password: user.password,
+    };
+
+    User.findOneAndUpdate(
+    {_id: user._id}, 
+    { $set: updatedValues },
+    function (error){
+        if (error){
+            callbackFn(error, null);
+        } else {
+            console.log ('User data updated -->username = ' + user.username + ' /id = ' + user._id);                        
+            callbackFn(null, user)
+        }
+    }); 
 };

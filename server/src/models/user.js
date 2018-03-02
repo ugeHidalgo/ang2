@@ -4,6 +4,7 @@ var moongoose = require ('mongoose'),
         id : Number,
         username: String,
         password: String,
+        salt: String,
         firstName: String,
         lastName: String
     });
