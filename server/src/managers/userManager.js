@@ -9,10 +9,10 @@ var mongoose = require ('mongoose'),
 
 module.exports.isAuthenticatedUser = function( userData, callbackFn) {
 
-    this.getUserByUserName(userData.userName, function (err, user) {
+    this.getUserByExactUserName(userData.userName, function (err, user) {
 
         if (err) { return callbackFn(err); }
-        if (!user) { return callbackFn(null, false); }
+        if (!user || user.length === 0) { return callbackFn(null, false); }
             
         if (userData.password !== user[0].password) {
                 return callbackFn (null, false);
@@ -24,6 +24,11 @@ module.exports.isAuthenticatedUser = function( userData, callbackFn) {
 module.exports.getUserById = function (id, callbackFn) {
 
     User.find({_id: id}, callbackFn);
+};
+
+module.exports.getUserByExactUserName = function (userName, callbackFn) {
+
+    User.find({username: userName}, callbackFn);
 };
 
 module.exports.getUserByUserName = function (userName, callbackFn) {
