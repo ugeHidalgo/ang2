@@ -5,6 +5,7 @@
  * Module dependencies.
  */
 var mongoose = require ('mongoose'),
+    config = require ('../../config/config'),
     jwt = require('jsonwebtoken'),
     hasher = require ('../auth/hasher'),
     User = require ('../models/user');
@@ -18,8 +19,6 @@ module.exports.isAuthenticatedUser = function( receivedUser, callbackFn) {
         var receivedHashedPassword,
             storedHashedPassword,
             userInDb,
-            payload,
-            token,
             notFoundUser = { success: false, message: 'User ' + receivedUser.userName + ' not found.'},
             notValidPassword = { success: false, message: 'Incorrect password for username: ' + receivedUser.userName };
 
@@ -34,9 +33,7 @@ module.exports.isAuthenticatedUser = function( receivedUser, callbackFn) {
                 return callbackFn (null, notValidPassword);
         }
 
-        payload = { userName: userInDb.username };
-        token = jwt.sign( payload, 'secret', { expiresIn: '2h' }); // Todo use data in config
-        return callbackFn (null, { success: true, message: 'Successfully logged.', token: token});
+        return callbackFn (null, createResposeWithJsonWebToken(userInDb.username));
     });
 }
 
@@ -69,6 +66,15 @@ module.exports.updateUser = function (user, callbackFn) {
 /**
  * Private methods.
  */
+function createResposeWithJsonWebToken(userName){
+    var secret = config.sessionSecret,
+        expiresIn = config.sessionJsonWebTokenExpires,
+        payload = { userName: userName },
+        token = jwt.sign( payload, secret, { expiresIn: expiresIn });
+
+    return { success: true, message: 'Successfully logged.', token: token}
+}
+
 function createNewUser (user, callbackFn){
     var newUser = new User(user),
             salt = hasher.createSalt();
