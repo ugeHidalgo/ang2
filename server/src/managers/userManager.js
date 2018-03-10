@@ -5,6 +5,7 @@
  * Module dependencies.
  */
 var mongoose = require ('mongoose'),
+    jwt = require('jsonwebtoken'),
     hasher = require ('../auth/hasher'),
     User = require ('../models/user');
 
@@ -16,19 +17,26 @@ module.exports.isAuthenticatedUser = function( receivedUser, callbackFn) {
     this.getUserByExactUserName(receivedUser.userName, function (err, userInDb) {
         var receivedHashedPassword,
             storedHashedPassword,
-            userInDb;
+            userInDb,
+            payload,
+            token,
+            notFoundUser = { success: false, message: 'User ' + receivedUser.userName + ' not found.'},
+            notValidPassword = { success: false, message: 'Incorrect password for username: ' + receivedUser.userName };
 
         if (err) { return callbackFn(err); }
-        if (!userInDb || userInDb.length === 0) { return callbackFn(null, false); }
+        if (!userInDb || userInDb.length === 0) { return callbackFn(null, notFoundUser); }
         
         userInDb = userInDb[0];
         receivedHashedPassword = hasher.computeHash(receivedUser.password, userInDb.salt);
         storedHashedPassword = userInDb.password;
 
         if (receivedHashedPassword !== storedHashedPassword) {
-                return callbackFn (null, false);
+                return callbackFn (null, notValidPassword);
         }
-        return callbackFn (null, true);
+
+        payload = { userName: userInDb.username };
+        token = jwt.sign( payload, 'secret', { expiresIn: '2h' }); // Todo use data in config
+        return callbackFn (null, { success: true, message: 'Successfully logged.', token: token});
     });
 }
 

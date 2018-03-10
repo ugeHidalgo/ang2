@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
           me.router.navigate(['/dashboard']);
         },
         error => {
-          me.toastr.error('Username/Password are not correct.');
+          me.toastr.error(error.error);
           me.loading = false;
           me.globals.clearUser();
         }

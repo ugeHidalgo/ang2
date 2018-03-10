@@ -34,16 +34,16 @@ module.exports.init = function (app) {
 
         var userData =  req.body;
 
-        userManager.isAuthenticatedUser ( userData, function(error, isAuthenticatedUser){
+        userManager.isAuthenticatedUser ( userData, function(error, loginResult){
              if (error){
-                res.status(400).send('Failed to authenticate user: ' + userData.userName);
+                res.status(400).send(loginResult.message + loginResult.userName);
             } else {
-                if (isAuthenticatedUser) {
+                if (loginResult.success) {
                     res.set('Content-Type','application/json');
-                    res.status(201).send(isAuthenticatedUser);
+                    res.status(201).send(loginResult);
                 }
                 else {
-                    res.status(401).send('Not authorized.');
+                    res.status(401).send(loginResult.message);
                 }
              }
         });
