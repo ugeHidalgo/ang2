@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class GlobalsService {
 
   userNameLogged: string;
+  localStorageStore = 'currentUser';
 
   constructor() { }
 
@@ -15,6 +16,18 @@ export class GlobalsService {
   clearUser() {
     const me = this;
     me.userNameLogged = undefined;
+  }
+
+  storeUserDataInLocalStorage(userName, token) {
+    localStorage.setItem(this.localStorageStore, JSON.stringify({
+      app: 'TotalHero',
+      username: userName,
+      token: token
+    }));
+  }
+
+  removeUserDataFromLocalStorage() {
+    localStorage.removeItem(this.localStorageStore);
   }
 
 }

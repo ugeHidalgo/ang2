@@ -15,5 +15,6 @@ export class AppComponent {
 
   logout() {
     this.globals.clearUser();
+    this.globals.removeUserDataFromLocalStorage();
   }
 }

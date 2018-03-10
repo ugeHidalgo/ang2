@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           me.globals.setUser(me.model.userName);
+          me.globals.storeUserDataInLocalStorage(me.model.userName, data.token);
           me.router.navigate(['/dashboard']);
         },
         error => {

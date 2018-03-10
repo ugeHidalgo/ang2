@@ -21,8 +21,9 @@ export class UserService {
   constructor( private http: HttpClient) { }
 
   /**.*/
-  isUserAuthenticated(userData: any): Observable<boolean> {
-    return this.http.post<boolean>(this.authUserUrl, userData, httpOptions);
+  isUserAuthenticated(userData: any): Observable<any> {
+    const data = this.http.post<any>(this.authUserUrl, userData, httpOptions);
+    return data;
   }
 
   /**.*/
