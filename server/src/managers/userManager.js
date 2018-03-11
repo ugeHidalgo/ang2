@@ -5,38 +5,11 @@
  * Module dependencies.
  */
 var mongoose = require ('mongoose'),
-    config = require ('../../config/config'),
-    jwt = require('jsonwebtoken'),
-    hasher = require ('../auth/hasher'),
     User = require ('../models/user');
 
 /**
  * Public methods.
  */
-module.exports.isAuthenticatedUser = function( receivedUser, callbackFn) {
-
-    this.getUserByExactUserName(receivedUser.userName, function (err, userInDb) {
-        var receivedHashedPassword,
-            storedHashedPassword,
-            userInDb,
-            notFoundUser = { success: false, message: 'User ' + receivedUser.userName + ' not found.'},
-            notValidPassword = { success: false, message: 'Incorrect password for username: ' + receivedUser.userName };
-
-        if (err) { return callbackFn(err); }
-        if (!userInDb || userInDb.length === 0) { return callbackFn(null, notFoundUser); }
-        
-        userInDb = userInDb[0];
-        receivedHashedPassword = hasher.computeHash(receivedUser.password, userInDb.salt);
-        storedHashedPassword = userInDb.password;
-
-        if (receivedHashedPassword !== storedHashedPassword) {
-                return callbackFn (null, notValidPassword);
-        }
-
-        return callbackFn (null, createResposeWithJsonWebToken(userInDb.username));
-    });
-}
-
 module.exports.getUserById = function (id, callbackFn) {
 
     User.find({_id: id}, callbackFn);
@@ -66,15 +39,6 @@ module.exports.updateUser = function (user, callbackFn) {
 /**
  * Private methods.
  */
-function createResposeWithJsonWebToken(userName){
-    var secret = config.sessionSecret,
-        expiresIn = config.sessionJsonWebTokenExpires,
-        payload = { userName: userName },
-        token = jwt.sign( payload, secret, { expiresIn: expiresIn });
-
-    return { success: true, message: 'Successfully logged.', token: token}
-}
-
 function createNewUser (user, callbackFn){
     var newUser = new User(user),
             salt = hasher.createSalt();

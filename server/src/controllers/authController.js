@@ -5,8 +5,8 @@
  * Module dependencies.
  */
 var url = require ('url'),
-    userManager = require('../managers/userManager');
-
+    userManager = require('../managers/userManager'),
+    auth = require ('../auth/authMiddleware');
 
 /**
  * Public methods.
@@ -30,11 +30,12 @@ module.exports.init = function (app) {
     });
 
     // Verify if an user can access
+    // (POST)http:localhost:3000/api/auth body: {username: 'a user name', password:'a password'}
     app.post('/api/auth', function(req, res, next){
 
         var userData =  req.body;
 
-        userManager.isAuthenticatedUser ( userData, function(error, loginResult){
+        auth.authenticateUser ( userData, function(error, loginResult){
              if (error){
                 res.status(400).send(loginResult.message + loginResult.userName);
             } else {
