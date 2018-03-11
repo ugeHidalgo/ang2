@@ -5,10 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { catchError, map, tap } from 'rxjs/operators';
 
 import { User } from '../../models/user';
+import { GlobalsService } from '../globals/globals.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-};
+// let httpOptions = {};
 
 @Injectable()
 export class UserService {
@@ -18,28 +17,46 @@ export class UserService {
   private userUrl  = this.server + 'api/user';
   private authUserUrl  = this.server + 'api/auth';
 
-  constructor( private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private globals: GlobalsService
+  ) {
+    /* httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }; */
+  }
 
   /**.*/
   isUserAuthenticated(userData: any): Observable<any> {
-    const data = this.http.post<any>(this.authUserUrl, userData, httpOptions);
-    return data;
+    return this.http.post<any>(this.authUserUrl, userData);
   }
 
   /**.*/
   registerUser(user: User): Observable<User> {
-    // const body = JSON.stringify(user);
-    return this.http.post<User>(this.userUrl, user, httpOptions);
+    return this.http.post<User>(this.userUrl, user);
   }
 
   /**.*/
   getUser(userName: string): Observable<User> {
     const me = this,
-        getUserUrl = `${me.userUrl}/?username=${userName}`,
-        user = me.http.get<User>(getUserUrl);
+          httpOptions = me.createHttpOptionsWithToken(),
+          getUserUrl = `${me.userUrl}/?username=${userName}`,
+          user = me.http.get<User>(getUserUrl, httpOptions);
     return user;
   }
 
    // Private methods -------------
+
+   /**.*/
+  private createHttpOptionsWithToken() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.globals.getTokenFromLocalStorage()
+      })
+    };
+  }
 }
 

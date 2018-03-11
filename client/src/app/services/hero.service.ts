@@ -7,11 +7,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Hero } from '../models/hero';
 import { HEROES } from './mock-heroes';
 import { MessageService } from './message.service';
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-};
+import { GlobalsService } from './globals/globals.service';
 
 @Injectable()
 export class HeroService {
@@ -23,14 +19,16 @@ export class HeroService {
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private globals: GlobalsService
   ) { }
 
   /**.*/
   getHeroes(): Observable<Hero[]> {
-    const me = this;
+    const me = this,
+          httpOptions = me.createHttpOptionsWithToken();
 
-    return me.http.get<Hero[]>(me.heroesUrl)
+    return me.http.get<Hero[]>(me.heroesUrl, httpOptions)
               .pipe(
                 tap(heroes => me.log('Heroes fetched.')),
                 catchError(me.handleError('getHeroes', []))
@@ -39,18 +37,22 @@ export class HeroService {
 
   /**.*/
   addHero(hero: Hero): Observable<Hero> {
-    const body = JSON.stringify(hero);
-    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions)
+    const me = this,
+          body = JSON.stringify(hero),
+          httpOptions = me.createHttpOptionsWithToken();
+
+    return this.http.post<Hero>(me.heroesUrl, hero, httpOptions)
               .pipe(
                 // tslint:disable-next-line:no-shadowed-variable
-                tap((hero: Hero) => this.log(`Hero with id ${hero._id} was created.`)),
-                catchError(this.handleError<Hero>('addHero: failed to create new hero.'))
+                tap((hero: Hero) => me.log(`Hero with id ${hero._id} was created.`)),
+                catchError(me.handleError<Hero>('addHero: failed to create new hero.'))
               );
   }
 
   /**.*/
   deleteHero(hero: Hero | number): Observable<Hero> {
     const me = this,
+          httpOptions = me.createHttpOptionsWithToken(),
           id = typeof hero === 'number' ? hero : hero._id,
           deleteHeroUrl = `${me.heroesUrl}/${id}`;
 
@@ -64,8 +66,9 @@ export class HeroService {
   /**.*/
   getHeroById(id: string): Observable<Hero> {
     const me = this,
-        getHeroByIdUrl = `${me.heroUrl}/?id=${id}`,
-        hero = me.http.get<Hero>(getHeroByIdUrl)
+          httpOptions = me.createHttpOptionsWithToken(),
+          getHeroByIdUrl = `${me.heroUrl}/?id=${id}`,
+          hero = me.http.get<Hero>(getHeroByIdUrl, httpOptions)
                       .pipe(
                         tap(_ => me.log(`Hero with id ${id} was fetched.`)),
                         catchError(me.handleError<Hero>(`getHeroById (id:${id}`))
@@ -77,6 +80,7 @@ export class HeroService {
   updateHero(hero: Hero): Observable<any> {
 
     const me = this,
+          httpOptions = me.createHttpOptionsWithToken(),
           updatedHero = me.http.post<Hero>(me.heroesUrl, hero, httpOptions)
                         .pipe(
                           tap(_ => me.log(`Hero with id ${hero._id} was updated.`)),
@@ -88,7 +92,9 @@ export class HeroService {
 
   /**.*/
   filterHeroes(term: string): Observable<Hero[]> {
-    const me = this;
+    const me = this,
+          httpOptions = me.createHttpOptionsWithToken();
+
     let getHeroByNameUrl;
 
     if (!term.trim()) {
@@ -98,7 +104,7 @@ export class HeroService {
 
     getHeroByNameUrl = `${me.heroUrl}/?name=${term}`;
 
-    return me.http.get<Hero[]>(getHeroByNameUrl)
+    return me.http.get<Hero[]>(getHeroByNameUrl, httpOptions)
           .pipe(
             tap(heroes => me.log(`Found heroes ${heroes.length} matching ${term}`)),
             catchError(me.handleError<Hero[]>('filterHeroes', []))
@@ -124,6 +130,16 @@ export class HeroService {
       console.error(error);
       this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
+    };
+  }
+
+  /**.*/
+  private createHttpOptionsWithToken() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.globals.getTokenFromLocalStorage()
+      })
     };
   }
 }

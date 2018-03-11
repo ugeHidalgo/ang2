@@ -26,6 +26,17 @@ export class GlobalsService {
     }));
   }
 
+  getUserDataFromLocalStorage() {
+    return JSON.parse(localStorage.getItem(this.localStorageStore));
+  }
+
+  getTokenFromLocalStorage() {
+    const me = this,
+          userData = me.getUserDataFromLocalStorage();
+
+    return userData ? userData.token : '';
+  }
+
   removeUserDataFromLocalStorage() {
     localStorage.removeItem(this.localStorageStore);
   }
