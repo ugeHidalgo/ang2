@@ -138,7 +138,7 @@ export class HeroService {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.globals.getTokenFromLocalStorage()
+        'Authorization-token': this.globals.getTokenFromLocalStorage()
       })
     };
   }

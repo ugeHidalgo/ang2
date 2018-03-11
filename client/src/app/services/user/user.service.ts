@@ -7,8 +7,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user';
 import { GlobalsService } from '../globals/globals.service';
 
-// let httpOptions = {};
-
 @Injectable()
 export class UserService {
 
@@ -20,13 +18,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private globals: GlobalsService
-  ) {
-    /* httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }; */
-  }
+  ) { }
 
   /**.*/
   isUserAuthenticated(userData: any): Observable<any> {
@@ -54,7 +46,7 @@ export class UserService {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.globals.getTokenFromLocalStorage()
+        'Authorization-token': this.globals.getTokenFromLocalStorage()
       })
     };
   }

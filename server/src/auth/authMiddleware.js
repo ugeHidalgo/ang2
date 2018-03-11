@@ -17,8 +17,20 @@ var jwt = require('jsonwebtoken'),
  * Function used to verify if an user was succesfully authenticathed.
  */
 module.exports.isUserAuthenticated = function (req, res, next) {
-    //Code for jwt validation goes here
-     next();
+    const token = req.body.token || req.query.token || req.headers['authorization-token']
+
+    if (token) {
+        jwt.verify(token, config.sessionSecret, function (err, decoded) {
+            if (err){
+                return res.json({succes: false, message: 'Failed to authenticate token: ' + err.message})
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        return res.status(403).send({succes: false, message: 'No token provided.'});
+    }
 };
 
 /**
