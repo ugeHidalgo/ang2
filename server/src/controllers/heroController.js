@@ -4,13 +4,18 @@
 /**
  * Module dependencies.
  */
-var url = require ('url');
-var heroManager = require('../managers/heroManager');
+var url = require ('url'),
+    heroManager = require ('../managers/heroManager'),
+    auth = require ('../auth/authMiddleware');
 
+
+/* function isUserAuthenticated (req, res, next) {
+    next();
+} */
 
 module.exports.init = function (app) {
     // (POST)http:localhost:3000/api/heroes body: {name: 'a name', username:'ugeHidalgo'}
-    app.post('/api/heroes', function(request, response, next){
+    app.post('/api/heroes', auth.isUserAuthenticated, function(request, response, next){
 
         var heroToUpdate =  request.body;
 
@@ -24,7 +29,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/heroes', function (req, res, next) {
+    app.get ('/api/heroes', auth.isUserAuthenticated, function (req, res, next) {
         // (GET)http:localhost:3000/api/heroes
         heroManager.getHeroes (function(error, data){
             if (error){
@@ -38,7 +43,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/heroes/:id', function (req, res, next) {
+    app.get ('/api/heroes/:id', auth.isUserAuthenticated, function (req, res, next) {
         var id = req.params.id,
             msg;
 
@@ -61,7 +66,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.delete ('/api/heroes/:id', function (req, res, next) {
+    app.delete ('/api/heroes/:id', auth.isUserAuthenticated, function (req, res, next) {
 
         var id = req.params.id,
             msg;
@@ -84,7 +89,7 @@ module.exports.init = function (app) {
         });
     });
 
-    app.get ('/api/hero', function (req, res, next) {
+    app.get ('/api/hero', auth.isUserAuthenticated, function (req, res, next) {
         // By name: (GET)http:localhost:3000/api/hero/?name=superman
         // By Id: (GET)http:localhost:3000/api/hero/?id=5a78a8fe458a4c457a3b4969
         var queryString = url.parse(req.url, true).query,
