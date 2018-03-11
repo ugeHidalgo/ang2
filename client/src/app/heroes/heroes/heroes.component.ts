@@ -18,10 +18,10 @@ export class HeroesComponent implements OnInit {
 
   constructor(private heroService: HeroService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
- }
+  }
 
   ngOnInit() {
-    this.getHeroes();
+    // this.getHeroes();
   }
 
   onAddHero(heroName: string): void {

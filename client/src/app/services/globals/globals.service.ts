@@ -30,6 +30,13 @@ export class GlobalsService {
     return JSON.parse(localStorage.getItem(this.localStorageStore));
   }
 
+  getUserNameFromLocalStorage() {
+    const me = this,
+          userData = me.getUserDataFromLocalStorage();
+
+    return userData ? userData.username : '';
+  }
+
   getTokenFromLocalStorage() {
     const me = this,
           userData = me.getUserDataFromLocalStorage();

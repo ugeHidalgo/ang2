@@ -11,7 +11,12 @@ import { GlobalsService } from './services/globals/globals.service';
 export class AppComponent {
   title = 'Heroes Management App';
 
-  constructor ( protected globals: GlobalsService ) {}
+  constructor ( protected globals: GlobalsService ) {
+    const me = this,
+          username = me.globals.getUserNameFromLocalStorage();
+
+    me.globals.setUser(username);
+  }
 
   logout() {
     this.globals.clearUser();
