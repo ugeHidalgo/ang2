@@ -31,6 +31,9 @@ module.exports.init = function (app) {
 
     app.get ('/api/heroes', auth.isUserAuthenticated, function (req, res, next) {
         // (GET)http:localhost:3000/api/heroes
+        if (res.error) {
+            res.status(401).send(res.error);
+        }
         heroManager.getHeroes (function(error, data){
             if (error){
                 console.log('Heroes controller returns an error (400)');

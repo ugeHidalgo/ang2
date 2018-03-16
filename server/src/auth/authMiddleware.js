@@ -22,14 +22,22 @@ module.exports.isUserAuthenticated = function (req, res, next) {
     if (token) {
         jwt.verify(token, config.sessionSecret, function (err, decoded) {
             if (err){
-                return res.json({succes: false, message: 'Failed to authenticate token: ' + err.message})
+                //return res.status(401).send({succes: false, message: 'Failed to authenticate token.'});
+                //res.status(403).send({succes: false, message: 'Failed to authenticate token.'});
+                //req.error = {succes: false, message: 'Failed to authenticate token.', err: err.message};
+                //next();
+                return res.status(401).send({message: err.message});
+                //return res.json({succes: false, message: 'Failed to authenticate token: ' + err.message})
             } else {
                 req.decoded = decoded;
                 next();
             }
         });
     } else {
-        return res.status(403).send({succes: false, message: 'No token provided.'});
+        //res.error = res.json({succes: false, message: 'No token provided.'})
+        //next();
+        //return res.status(403).send({succes: false, message: 'No token provided.'});
+        return res.status(403).send({message: 'no token provided'});
     }
 };
 

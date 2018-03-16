@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { GlobalsService } from './services/globals/globals.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { GlobalsService } from './services/globals/globals.service';
 export class AppComponent {
   title = 'Heroes Management App';
 
-  constructor ( protected globals: GlobalsService ) {
+  constructor ( protected globals: GlobalsService, private router: Router ) {
     const me = this,
           username = me.globals.getUserNameFromLocalStorage();
 
@@ -19,7 +20,10 @@ export class AppComponent {
   }
 
   logout() {
-    this.globals.clearUser();
-    this.globals.removeUserDataFromLocalStorage();
+    const me = this;
+
+    me.globals.clearUser();
+    me.globals.removeUserDataFromLocalStorage();
+    me.router.navigate(['/']);
   }
 }

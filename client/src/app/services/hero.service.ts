@@ -8,6 +8,7 @@ import { Hero } from '../models/hero';
 import { HEROES } from './mock-heroes';
 import { MessageService } from './message.service';
 import { GlobalsService } from './globals/globals.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HeroService {
@@ -20,7 +21,8 @@ export class HeroService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private globals: GlobalsService
+    private globals: GlobalsService,
+    private router: Router
   ) { }
 
   /**.*/
@@ -126,9 +128,14 @@ export class HeroService {
    * @param result - optional value to return as the observable result
    */
   private handleError<T>(operation = 'operation', result?: T) {
+    const me = this;
+
     return (error: any): Observable<T> => {
-      console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
+      if (error.status === 401) {
+        me.router.navigate(['/login']);
+      }
+      // console.error(error.error.message);
+      me.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }
