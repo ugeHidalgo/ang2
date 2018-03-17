@@ -20,6 +20,7 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterComponent } from './login/register/register.component';
 import { GlobalsService } from './services/globals/globals.service';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { GlobalsService } from './services/globals/globals.service';
   ],
 
   providers: [
+    AuthGuard,
     UserService,
     HeroService,
     MessageService,
