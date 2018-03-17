@@ -11,15 +11,15 @@ import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes/heroes.component';
 import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
 import { UserService } from './services/user/user.service';
-import { HeroService } from './services/hero.service';
+import { HeroService } from './services/hero/hero.service';
 import { MessagesComponent } from './messages/messages.component';
-import { MessageService } from './services/message.service';
+import { MessageService } from './services/message/message.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterComponent } from './login/register/register.component';
-import { GlobalsService } from './services/globals/globals.service';
+import { GlobalsService } from './globals/globals.service';
 import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({

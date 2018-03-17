@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { UserService } from '../../services/user/user.service';
-import { GlobalsService } from '../../services/globals/globals.service';
+import { GlobalsService } from '../../globals/globals.service';
 
 
 @Component({

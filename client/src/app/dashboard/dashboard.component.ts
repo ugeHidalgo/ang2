@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { HeroService } from '../services/hero.service';
+import { HeroService } from '../services/hero/hero.service';
 import { Hero } from '../models/hero';
-import { GlobalsService } from '../services/globals/globals.service';
+import { GlobalsService } from '../globals/globals.service';
 
 
 @Component({

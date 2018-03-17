@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
-import { HeroService } from '../../services/hero.service';
+import { HeroService } from '../../services/hero/hero.service';
 import { Hero } from '../../models/hero';
 
 @Component({

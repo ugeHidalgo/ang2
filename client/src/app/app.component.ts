@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalsService } from './services/globals/globals.service';
+import { GlobalsService } from './globals/globals.service';
 
 @Component({
   selector: 'app-root',
