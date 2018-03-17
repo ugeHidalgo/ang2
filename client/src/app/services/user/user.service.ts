@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { catchError, map, tap } from 'rxjs/operators';
 
 import { User } from '../../models/user';
-import { GlobalsService } from '../globals/globals.service';
+import { GlobalsService } from '../../globals/globals.service';
 
 @Injectable()
 export class UserService {

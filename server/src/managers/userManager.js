@@ -5,6 +5,7 @@
  * Module dependencies.
  */
 var mongoose = require ('mongoose'),
+    hasher = require ('../auth/hasher'),
     User = require ('../models/user');
 
 /**
