@@ -6,6 +6,6 @@ export class ToastrCustomOptions extends ToastOptions {
   animate = 'flyLeft';
   newestOnTop = false;
   showCloseButton = true;
-  titleClass = 'toastrCustomOptions.css';
+  titleClass = 'toastrCustomOptions.scss';
 }
 

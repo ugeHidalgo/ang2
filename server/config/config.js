@@ -44,5 +44,5 @@ module.exports = {
     },
     sessionKey: 'sessionId',
     sessionSecret: process.env.SESSION_SECRET || 'anystringhereisvalidtoencript',
-    sessionJsonWebTokenExpires: '1m'
+    sessionJsonWebTokenExpires: '10h'
 };
